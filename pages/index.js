@@ -1,65 +1,72 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import AtomParagraph from "../components/atoms/paragraph";
+import AtomButton from "../components/atoms/button";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
 
-export default function Home() {
+export default function test() {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <>
+      <Navbar variant="light" style={{ background: "#0086CF" }}>
+        <Navbar.Brand href="#home">
+          <img src="/homepage/nav_logo.svg" />
+        </Navbar.Brand>
+        <Nav className="mr-auto text-light">
+          <Nav.Link className="text-light" href="#home">
+            Trends
+          </Nav.Link>
+          <Nav.Link className="text-light" href="#features">
+            Explore
+          </Nav.Link>
+          <Nav.Link className="text-light" href="#pricing">
+            Collection
+          </Nav.Link>
+          <Nav.Link className="text-light" href="#pricing">
+            About Us
+          </Nav.Link>
+        </Nav>
+        <Form inline>
+          <img className="mr-3" src="/homepage/user_logo.svg" />
+          <img className="mr-3" src="/homepage/cart_logo.svg" />
+        </Form>
+      </Navbar>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <center>
+        <div className="row container mt-5">
+          <div className="col-md-6 text-left">
+            <AtomParagraph
+              value="Peduli Digital Market"
+              size="36px"
+              weight="bold"
+              lineHeight="39px"
+            />
+            <AtomParagraph
+              value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged"
+              size="14px"
+              lineHeight="30px"
+            />
+            <div className="mt-5">
+            <AtomButton
+              value="Browse All Products"
+              background="#0086CF"
+              color="#FFF"
+              padding="10px 50px 10px 20px"
+              border="none"
+              radius="10px"
+            />
+            <AtomButton
+              customClass="ml-3"
+              value="Follow This Board"
+              background="#F0F0F0"
+              color="#787878"
+              padding="10px 50px 10px 20px"
+              border="none"
+              radius="10px"
+            />
+            </div>
+          </div>
+          <div className="col-md-6"><img src="/homepage/beranda_img.svg" /></div>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+      </center>
+    </>
+  );
 }
