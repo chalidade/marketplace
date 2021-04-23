@@ -1,36 +1,64 @@
 import AtomParagraph from "../components/atoms/paragraph";
 import AtomButton from "../components/atoms/button";
+import { useState } from "react";
 import MoleculeProduct from "../components/molecules/product_list";
+import OrganismsNav from "../components/organisms/nav";
+import { list_product } from "../components/variables/list_product";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, Button, Toast } from "react-bootstrap";
 
 export default function test() {
+  let products = list_product();
+  const [show, setShow] = useState(false);
+  const [showName, setShowName] = useState("");
+
+  // Add to Cart belum jadi Video
+  const [cart, setCart] = useState([]);
+  const handleAddCart = (e) => {
+    let check = cart.filter((product) => product.id == e.target.id);
+    let product = {
+      id: e.target.id,
+      title: e.target.name,
+      qty: 1,
+    };
+
+    if (check.length == 0) {
+      setCart([...cart, product]);
+    } else {
+      cart.map((product) => {
+        if (product.id == e.target.id) {
+          product.qty = product.qty + 1;
+        }
+      });
+    }
+
+    console.log(cart);
+    setShowName(e.target.name);
+    setShow(true);
+  };
+  // End to Cart belum jadi Video
+
   return (
     <>
-      <Navbar variant="light" style={{ background: "#0086CF" }}>
-        <Navbar.Brand href="#home">
-          <img src="/homepage/nav_logo.svg" />
-        </Navbar.Brand>
-        <Nav className="mr-auto text-light">
-          <Nav.Link className="text-light" href="#home">
-            Trends
-          </Nav.Link>
-          <Nav.Link className="text-light" href="#features">
-            Explore
-          </Nav.Link>
-          <Nav.Link className="text-light" href="#pricing">
-            Collection
-          </Nav.Link>
-          <Nav.Link className="text-light" href="#pricing">
-            About Us
-          </Nav.Link>
-        </Nav>
-        <Form inline>
-          <img className="mr-3" src="/homepage/user_logo.svg" />
-          <img className="mr-3" src="/homepage/cart_logo.svg" />
-        </Form>
-      </Navbar>
-
+      <OrganismsNav />
+      <Toast
+        onClose={() => setShow(false)}
+        show={show}
+        delay={3000}
+        style={{
+          position: "absolute",
+          right: "0px",
+          background: "#1DD200",
+          color: "#FFF",
+          margin: "20px",
+        }}
+        autohide
+      >
+        <Toast.Body>
+          <img className="mr-2" src="/homepage/check_logo.svg" /> Success Add
+          {showName} To Cart
+        </Toast.Body>
+      </Toast>
       <center>
         <div className="row container mt-5">
           <div className="col-md-6 text-left">
@@ -83,38 +111,22 @@ export default function test() {
                 lineHeight="30px"
               />
             </div>
-            <div className="col-3">
-              <MoleculeProduct
-                image="/products/product_1.svg"
-                title="Lavonte"
-                price="$55.00"
-                category="Forever Shoes"
-              />
-            </div>
-            <div className="col-3">
-              <MoleculeProduct
-                image="/products/product_2.svg"
-                title="Lavonte"
-                price="$25.00"
-                category="Forever Shoes"
-              />
-            </div>
-            <div className="col-3">
-              <MoleculeProduct
-                image="/products/product_3.svg"
-                title="Lavonte"
-                price="$55.00"
-                category="Forever Shoes"
-              />
-            </div>
-            <div className="col-3">
-              <MoleculeProduct
-                image="/products/product_4.svg"
-                title="Lavonte"
-                price="$55.00"
-                category="Forever Shoes"
-              />
-            </div>
+            {products.map((product) => {
+              return (
+                <>
+                  <div className="col-3">
+                    <MoleculeProduct
+                      image={product.image[0]}
+                      title={product.title}
+                      price={product.price}
+                      category={product.category}
+                      id={product.id}
+                      addCart={handleAddCart}
+                    />
+                  </div>
+                </>
+              );
+            })}
           </div>
         </div>
       </center>

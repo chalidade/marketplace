@@ -1,7 +1,7 @@
 import AtomParagraph from "../atoms/paragraph";
 import AtomImage from "../atoms/image";
 
-export default function product_list({ image, title, price, category, id }) {
+export default function product_list({ image, title, price, category, id, addCart }) {
   return (
     <>
       <div
@@ -32,7 +32,7 @@ export default function product_list({ image, title, price, category, id }) {
             <AtomParagraph value={price} size="18px" weight="bold" />
           </div>
           <div className="col-4">
-            <img src="/homepage/cart_logo_black.svg" />
+            <img onClick={addCart} id={id} name={title} src="/homepage/cart_logo_black.svg" />
           </div>
         </div>
       </div>
