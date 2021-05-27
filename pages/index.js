@@ -3,19 +3,21 @@ import AtomButton from "../components/atoms/button";
 import { useState } from "react";
 import MoleculeProduct from "../components/molecules/product_list";
 import OrganismsNav from "../components/organisms/nav";
-import { list_product } from "../components/variables/list_product";
+import { list_product, listCart } from "../components/variables/list_product";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, Form, FormControl, Button, Toast } from "react-bootstrap";
+import Link from "next/link";
 
 export default function test() {
   let products = list_product();
   const [show, setShow] = useState(false);
+  const [showFailed, setShowFailed] = useState(false);
   const [showName, setShowName] = useState("");
 
   // Add to Cart belum jadi Video
   const [cart, setCart] = useState([]);
   const handleAddCart = (e) => {
-    let check = cart.filter((product) => product.id == e.target.id);
+    let check = listCart.filter((product) => product.id == e.target.id);
     let product = {
       id: e.target.id,
       title: e.target.name,
@@ -23,20 +25,36 @@ export default function test() {
     };
 
     if (check.length == 0) {
-      setCart([...cart, product]);
+      listCart.push(product);
+      setShow(true);
     } else {
-      cart.map((product) => {
+      listCart.map((product) => {
         if (product.id == e.target.id) {
-          product.qty = product.qty + 1;
+          setShow(false);
+          setShowFailed(true);
         }
       });
     }
 
-    console.log(cart);
     setShowName(e.target.name);
-    setShow(true);
   };
   // End to Cart belum jadi Video
+
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Title as="h3">Popover right</Popover.Title>
+      <Popover.Content>
+        And here's some <strong>amazing</strong> content. It's very engaging.
+        right?
+      </Popover.Content>
+    </Popover>
+  );
+
+  const Example = () => (
+    <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+      <Button variant="success">Click me to see</Button>
+    </OverlayTrigger>
+  );
 
   return (
     <>
@@ -57,6 +75,25 @@ export default function test() {
         <Toast.Body>
           <img className="mr-2" src="/homepage/check_logo.svg" /> Success Add
           {showName} To Cart
+        </Toast.Body>
+      </Toast>
+
+      <Toast
+        onClose={() => setShowFailed(false)}
+        show={showFailed}
+        delay={3000}
+        style={{
+          position: "absolute",
+          right: "0px",
+          background: "#D20000",
+          color: "#FFF",
+          margin: "20px",
+        }}
+        autohide
+      >
+        <Toast.Body>
+          <img className="mr-2" src="/homepage/icon_warning.svg" />
+          {showName} Already on Cart
         </Toast.Body>
       </Toast>
       <center>
@@ -111,19 +148,21 @@ export default function test() {
                 lineHeight="30px"
               />
             </div>
-            {products.map((product) => {
+            {products.map((product, index) => {
               return (
                 <>
-                  <div className="col-3">
-                    <MoleculeProduct
-                      image={product.image[0]}
-                      title={product.title}
-                      price={product.price}
-                      category={product.category}
-                      id={product.id}
-                      addCart={handleAddCart}
-                    />
-                  </div>
+                    <div className="col-3">
+                      <MoleculeProduct
+                        image={product.image[0]}
+                        title={product.title}
+                        price={product.price}
+                        category={product.category}
+                        id={product.id}
+                        index={index}
+                        link="/detail"
+                        addCart={handleAddCart}
+                      />
+                    </div>
                 </>
               );
             })}
